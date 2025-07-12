@@ -1,0 +1,60 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.useros
+*.sln.docstates
+
+# Binaries
+[Bb]in/
+[Oo]bj/
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.meta
+*.mdf
+*.ldf
+*.sdf
+
+# Packages
+*.nupkg
+*.snupkg
+*.cache
+
+# Build results
+[Tt]humbs.db
+[Dd]ebug/
+[Rr]elease/
+
+# Rider
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Environment variables / Secrets
+appsettings.Development.json
+appsettings.json
+UserSecrets.xml
+
+# Publish Folder
+publish/
+
+# Test Results
+TestResults/
+
+# Node.js (if applicable)
+node_modules/
+npm-debug.log
+
+# macOS
+.DS_Store
+
+# Linux
+*.swp
+*~

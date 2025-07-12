@@ -1,6 +1,0 @@
-{
-  "Tarefas.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/cristian\/_dev\/DotnetApiDemo\/Tarefas.Api",
-  "Tarefas.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/cristian\/_dev\/DotnetApiDemo\/Tarefas.Application",
-  "Tarefas.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/cristian\/_dev\/DotnetApiDemo\/Tarefas.Domain",
-  "Tarefas.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/cristian\/_dev\/DotnetApiDemo\/Tarefas.Infrastructure"
-}

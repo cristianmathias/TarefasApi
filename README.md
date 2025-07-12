@@ -1,4 +1,4 @@
-# DotnetApiDemo
+# Tarefas.Api
 
 API de demonstração construída com .NET 9 para gerenciar uma lista de tarefas. Este projeto segue os princípios da Arquitetura Limpa, separando as preocupações em camadas de Domínio, Aplicação, e Infraestrutura.
 
@@ -10,17 +10,17 @@ API de demonstração construída com .NET 9 para gerenciar uma lista de tarefas
 
 ## Estrutura do Projeto
 
-- **DotnetApiDemo.Domain**: Contém as entidades de negócio e as interfaces dos repositórios.
-- **DotnetApiDemo.Application**: Contém a lógica de negócio, DTOs, e as interfaces dos serviços.
-- **DotnetApiDemo.Infrastructure**: Contém as implementações concretas dos repositórios e outros serviços de infraestrutura.
-- **DotnetApiDemo**: A camada de apresentação, contendo os controladores da API.
+- **Tarefas.Domain**: Contém as entidades de negócio e as interfaces dos repositórios.
+- **Tarefas.Application**: Contém a lógica de negócio, DTOs, e as interfaces dos serviços.
+- **Tarefas.Infrastructure**: Contém as implementações concretas dos repositórios e outros serviços de infraestrutura.
+- **Tarefas.Api**: A camada de apresentação, contendo os controladores da API.
 
 ## Como Executar
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/DotnetApiDemo.git
-   cd DotnetApiDemo
+   git clone git@github.com:cristianmathias/TarefasApi.git
+   cd TarefasApi
    ```
 
 2. **Restaure as dependências:**
@@ -30,7 +30,7 @@ API de demonstração construída com .NET 9 para gerenciar uma lista de tarefas
 
 3. **Execute o projeto:**
    ```bash
-   dotnet run --project DotnetApiDemo/DotnetApiDemo.csproj
+   dotnet run --project Tarefas.Api/Tarefas.Api.csproj
    ```
 
 A API estará disponível em `http://localhost:5230`.
@@ -44,12 +44,12 @@ Para explorar e testar os endpoints da API de forma interativa, acesse a documen
 Para executar os testes do projeto, utilize o seguinte comando:
 
 ```bash
-   dotnet test DotnetApiDemo.Tests/DotnetApiDemo.Tests.csproj
+   dotnet test Tarefas.Tests/Tarefas.Tests.csproj
    ```
 
 ## Endpoints da API
 
-As requisições para os endpoints estão documentadas no arquivo `DotnetApiDemo.http`. Você pode usar a extensão REST Client do VS Code para executá-las.
+As requisições para os endpoints estão documentadas no arquivo `Tarefas.Api.http`. Você pode usar a extensão REST Client do VS Code para executá-las.
 
 - `GET /Tarefas`: Retorna uma lista paginada de tarefas.
 - `GET /Tarefas/{id}`: Retorna uma tarefa específica.
