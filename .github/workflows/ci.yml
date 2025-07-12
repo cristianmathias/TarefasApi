@@ -1,0 +1,28 @@
+name: .NET CI
+
+on:
+  push:
+    branches:
+      - '**' # Dispara o workflow em qualquer push para qualquer branch
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Você pode usar 'windows-latest' ou 'macos-latest' também
+
+    steps:
+    - name: Checkout do Código
+      uses: actions/checkout@v4
+
+    - name: Configurar .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # Use a versão do .NET que seu projeto utiliza (net9.0)
+
+    - name: Restaurar Dependências
+      run: dotnet restore
+
+    - name: Construir Solução
+      run: dotnet build --no-restore # --no-restore para não restaurar novamente
+
+    - name: Executar Testes
+      run: dotnet test --no-build # --no-build para não construir novamente
