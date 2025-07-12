@@ -1,0 +1,15 @@
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/bin/Debug/net9.0/DotnetApiDemo.Application.deps.json
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/bin/Debug/net9.0/DotnetApiDemo.Application.dll
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/bin/Debug/net9.0/DotnetApiDemo.Application.pdb
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/bin/Debug/net9.0/DotnetApiDemo.Domain.dll
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/bin/Debug/net9.0/DotnetApiDemo.Domain.pdb
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.csproj.AssemblyReference.cache
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.AssemblyInfoInputs.cache
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.AssemblyInfo.cs
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.csproj.CoreCompileInputs.cache
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetAp.F9CDE9F2.Up2Date
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.dll
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/refint/DotnetApiDemo.Application.dll
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/DotnetApiDemo.Application.pdb
+/home/cristian/_dev/DotnetApiDemo/DotnetApiDemo.Application/obj/Debug/net9.0/ref/DotnetApiDemo.Application.dll

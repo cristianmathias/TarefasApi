@@ -1,0 +1,27 @@
+### Obter todas as tarefas
+GET http://localhost:5000/Tarefas?pagina=1&tamanhoPagina=10
+
+### Obter tarefa por ID
+GET http://localhost:5000/Tarefas/1
+
+### Adicionar uma nova tarefa
+POST http://localhost:5000/Tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Nova Tarefa",
+  "descricao": "Descrição da nova tarefa"
+}
+
+### Atualizar uma tarefa
+PUT http://localhost:5000/Tarefas/1
+Content-Type: application/json
+
+{
+  "titulo": "Tarefa Atualizada",
+  "descricao": "Descrição da tarefa atualizada",
+  "concluida": true
+}
+
+### Deletar uma tarefa
+DELETE http://localhost:5000/Tarefas/1

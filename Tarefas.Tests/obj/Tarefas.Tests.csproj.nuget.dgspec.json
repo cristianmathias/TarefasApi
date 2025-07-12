@@ -1,0 +1,373 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Tests/Tarefas.Tests.csproj": {}
+  },
+  "projects": {
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj",
+        "projectName": "Tarefas.Api",
+        "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj",
+        "packagesPath": "/home/cristian/.nuget/packages/",
+        "outputPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cristian/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj"
+              },
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Swashbuckle.AspNetCore.SwaggerGen": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
+            "Swashbuckle.AspNetCore.SwaggerUI": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj",
+        "projectName": "Tarefas.Application",
+        "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj",
+        "packagesPath": "/home/cristian/.nuget/packages/",
+        "outputPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cristian/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/Tarefas.Domain.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/Tarefas.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/Tarefas.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/Tarefas.Domain.csproj",
+        "projectName": "Tarefas.Domain",
+        "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/Tarefas.Domain.csproj",
+        "packagesPath": "/home/cristian/.nuget/packages/",
+        "outputPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cristian/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj",
+        "projectName": "Tarefas.Infrastructure",
+        "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj",
+        "packagesPath": "/home/cristian/.nuget/packages/",
+        "outputPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cristian/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Application/Tarefas.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/cristian/_dev/DotnetApiDemo/Tarefas.Tests/Tarefas.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Tests/Tarefas.Tests.csproj",
+        "projectName": "Tarefas.Tests",
+        "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Tests/Tarefas.Tests.csproj",
+        "packagesPath": "/home/cristian/.nuget/packages/",
+        "outputPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/cristian/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj"
+              },
+              "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj": {
+                "projectPath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Infrastructure/Tarefas.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Testing": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.12.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.8.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.106/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

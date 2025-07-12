@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "NPI8XT4jIMg=",
+  "success": true,
+  "projectFilePath": "/home/cristian/_dev/DotnetApiDemo/Tarefas.Api/Tarefas.Api.csproj",
+  "expectedPackageFiles": [
+    "/home/cristian/.nuget/packages/microsoft.openapi/1.6.23/microsoft.openapi.1.6.23.nupkg.sha512",
+    "/home/cristian/.nuget/packages/swashbuckle.aspnetcore.swagger/9.0.1/swashbuckle.aspnetcore.swagger.9.0.1.nupkg.sha512",
+    "/home/cristian/.nuget/packages/swashbuckle.aspnetcore.swaggergen/9.0.1/swashbuckle.aspnetcore.swaggergen.9.0.1.nupkg.sha512",
+    "/home/cristian/.nuget/packages/swashbuckle.aspnetcore.swaggerui/9.0.1/swashbuckle.aspnetcore.swaggerui.9.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
