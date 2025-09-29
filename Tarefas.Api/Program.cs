@@ -17,10 +17,20 @@ public partial class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        if (builder.Environment.IsDevelopment())
+        builder.Services.AddSwaggerGen(c =>
         {
-            builder.Services.AddSwaggerGen();
-        }
+            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+            {
+                Title = "Tarefas API",
+                Version = "v1",
+                Description = "API REST para gerenciamento de tarefas seguindo os princípios da Clean Architecture",
+                Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                {
+                    Name = "Desenvolvedor",
+                    Email = "dev@tarefas.com"
+                }
+            });
+        });
 
         // Dependency Injection
         builder.Services.AddScoped<ITarefaService, TarefaService>();
