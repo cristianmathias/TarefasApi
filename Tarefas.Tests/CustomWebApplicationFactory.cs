@@ -114,4 +114,17 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         context.Tarefas.RemoveRange(context.Tarefas);
         context.SaveChanges();
     }
+
+    /// <summary>
+    /// Força reset do auto-increment para testes que precisam de IDs específicos
+    /// </summary>
+    public void ResetDatabase()
+    {
+        using var scope = Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<TarefasDbContext>();
+        
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+        context.ChangeTracker.Clear();
+    }
 }

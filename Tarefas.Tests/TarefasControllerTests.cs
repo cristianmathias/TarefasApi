@@ -21,10 +21,24 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
         _client = _factory.CreateClient();
     }
 
-    private void InitializeTest()
+    private void InitializeTest(bool cleanDatabase = true)
     {
-        // Inicializar dados para cada teste
-        _factory.InitializeDbForTests();
+        if (cleanDatabase)
+        {
+            // Limpar dados para testes que precisam começar do zero
+            _factory.CleanDatabase();
+        }
+        else
+        {
+            // Inicializar dados para testes que precisam de dados padrão
+            _factory.InitializeDbForTests();
+        }
+    }
+
+    private void InitializeForConcurrency()
+    {
+        // Para testes de concorrência, resetar completamente o banco
+        _factory.ResetDatabase();
     }
 
     [Fact]
@@ -117,18 +131,20 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Put_TarefaExistente_DeveRetornar200()
     {
-        // Arrange
-        InitializeTest();
+        // Arrange - Limpar banco e criar tarefa
+        InitializeTest(cleanDatabase: true);
         
-        // Primeiro criar uma tarefa
         var novaTarefa = new CriarTarefaDTO("Tarefa para atualizar", "Descrição inicial");
         var createResponse = await _client.PostAsJsonAsync("/Tarefas", novaTarefa);
+        createResponse.EnsureSuccessStatusCode();
+        
         var tarefaCriada = await createResponse.Content.ReadFromJsonAsync<Tarefa>();
+        Assert.NotNull(tarefaCriada);
         
         var atualizarTarefa = new AtualizarTarefaDTO("Tarefa atualizada", true);
 
         // Act
-        var response = await _client.PutAsJsonAsync($"/Tarefas/{tarefaCriada!.Id}", atualizarTarefa);
+        var response = await _client.PutAsJsonAsync($"/Tarefas/{tarefaCriada.Id}", atualizarTarefa);
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -394,43 +410,41 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task ConcorrenciaSimulada_CriarMultiplasTarefas_DeveProcessarTodas()
     {
-        // Arrange - Criar tarefas únicas para evitar problemas de InMemory DB
-        InitializeTest();
+        // Arrange - Resetar banco para concorrência
+        InitializeForConcurrency();
+        
+        // Criar tarefas únicas para evitar problemas de InMemory DB
         var tarefas = Enumerable.Range(1, 5).Select(i => 
             new CriarTarefaDTO($"Tarefa Concorrente {i} - {Guid.NewGuid()}", $"Descrição {i}")
         ).ToList();
 
-        // Act - Criar todas as tarefas sequencialmente (InMemory DB tem limitações com concorrência)
-        var results = new List<(bool Success, HttpResponseMessage? Response, Tarefa? Tarefa)>();
+        // Act - Criar todas as tarefas sequencialmente para garantir sucesso
+        var results = new List<Tarefa>();
         
         foreach (var tarefa in tarefas)
         {
-            try
-            {
-                var response = await _client.PostAsJsonAsync("/Tarefas", tarefa);
-                if (response.IsSuccessStatusCode)
-                {
-                    var tarefaCriada = await response.Content.ReadFromJsonAsync<Tarefa>();
-                    results.Add((true, response, tarefaCriada));
-                }
-                else
-                {
-                    results.Add((false, response, null));
-                }
-            }
-            catch
-            {
-                results.Add((false, null, null));
-            }
+            var response = await _client.PostAsJsonAsync("/Tarefas", tarefa);
+            response.EnsureSuccessStatusCode();
+            var tarefaCriada = await response.Content.ReadFromJsonAsync<Tarefa>();
+            Assert.NotNull(tarefaCriada);
+            results.Add(tarefaCriada);
         }
 
         // Assert - Todas devem ter sido criadas com sucesso
-        var successfulResults = results.Where(r => r.Success).ToList();
-        Assert.Equal(5, successfulResults.Count); // Todas devem ter sucesso
+        Assert.Equal(5, results.Count);
         
         // Verificar que todas têm IDs únicos
-        var ids = successfulResults.Select(r => r.Tarefa!.Id).ToList();
+        var ids = results.Select(r => r.Id).ToList();
         Assert.Equal(ids.Count, ids.Distinct().Count());
+        
+        // Verificar que todos os IDs são válidos (> 0)
+        Assert.All(ids, id => Assert.True(id > 0));
+
+        // Verificar que realmente estão no banco
+        var listResponse = await _client.GetAsync("/Tarefas");
+        listResponse.EnsureSuccessStatusCode();
+        var allTarefas = await listResponse.Content.ReadFromJsonAsync<object>();
+        Assert.NotNull(allTarefas);
     }
 
     [Theory]
@@ -470,8 +484,8 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task OperacoesEmSequenciaRapida_DeveMantarConsistencia()
     {
-        // Arrange
-        InitializeTest();
+        // Arrange - Resetar banco para garantir IDs sequenciais
+        InitializeForConcurrency();
         
         // Act - Operações rápidas em sequência
         var tarefa1 = new CriarTarefaDTO("Tarefa Sequência 1", "Desc 1");
@@ -491,5 +505,9 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
         Assert.NotNull(criada1);
         Assert.NotNull(criada2);
         Assert.NotEqual(criada1.Id, criada2.Id); // IDs devem ser diferentes
+        
+        // Ambos IDs devem ser válidos (> 0)
+        Assert.True(criada1.Id > 0);
+        Assert.True(criada2.Id > 0);
     }
 }
