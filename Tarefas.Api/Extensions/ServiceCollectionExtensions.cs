@@ -7,8 +7,7 @@ using Tarefas.Api.Middleware;
 using Tarefas.Api.Services;
 using Tarefas.Application.Interfaces;
 using Tarefas.Application.Services;
-using Tarefas.Domain.Interfaces;
-using Tarefas.Infrastructure.Repositories;
+using Tarefas.Infrastructure.Extensions;
 
 namespace Tarefas.Api.Extensions;
 
@@ -150,13 +149,15 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Configura injeção de dependência da aplicação
     /// </summary>
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
-        // Services
+        // Application Services
         services.AddScoped<ITarefaService, TarefaService>();
         
-        // Repositories (atualmente em memória, será migrado para EF)
-        services.AddSingleton<ITarefaRepository, TarefaRepository>();
+        // Infrastructure Services (EF Core + Repositories)
+        services.AddEntityFramework(configuration, environment);
+        services.AddRepositories();
+        services.AddDatabaseInitialization();
 
         return services;
     }

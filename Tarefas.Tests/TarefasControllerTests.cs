@@ -19,6 +19,9 @@ public class TarefasControllerTests : IClassFixture<CustomWebApplicationFactory>
     {
         _factory = factory;
         _client = _factory.CreateClient();
+        
+        // Popula dados de teste antes de cada execução
+        _factory.SeedDefaultTestData();
     }
 
     [Fact]
