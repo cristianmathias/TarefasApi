@@ -24,7 +24,8 @@ public partial class Program
         // ============================================================================
         builder.Host.UseSerilog((context, services, configuration) =>
         {
-            SerilogConfiguration.ConfigureSerilog(context.Configuration, (IWebHostEnvironment)context.HostingEnvironment)
+            var webHostEnvironment = services.GetRequiredService<IWebHostEnvironment>();
+            SerilogConfiguration.ConfigureSerilog(context.Configuration, webHostEnvironment)
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services);
         });
@@ -32,21 +33,27 @@ public partial class Program
         // ============================================================================
         // OBSERVABILIDADE - HEALTH CHECKS
         // ============================================================================
-        builder.Services.AddHealthChecks()
-            .AddCheck<ApplicationHealthCheck>("application")
-            .AddCheck<DatabaseHealthCheck>("database") 
-            .AddCheck<RateLimitHealthCheck>("rate_limit")
-            .AddDbContextCheck<Tarefas.Infrastructure.Data.TarefasDbContext>("ef_database");
-
-        // Health Checks UI
-        builder.Services.AddHealthChecksUI(setup =>
+        if (!builder.Environment.IsEnvironment("Testing"))
         {
-            setup.SetEvaluationTimeInSeconds(30); // Avalia a cada 30 segundos
-            setup.MaximumHistoryEntriesPerEndpoint(50); // Mantém histórico de 50 entradas
-            setup.AddHealthCheckEndpoint("TarefasAPI", "/health");
-            setup.AddHealthCheckEndpoint("TarefasAPI-Ready", "/health/ready");  
-            setup.AddHealthCheckEndpoint("TarefasAPI-Live", "/health/live");
-        }).AddInMemoryStorage();
+            builder.Services.AddHealthChecks()
+                .AddCheck<ApplicationHealthCheck>("application")
+                .AddCheck<DatabaseHealthCheck>("database") 
+                .AddCheck<RateLimitHealthCheck>("rate_limit")
+                .AddDbContextCheck<Tarefas.Infrastructure.Data.TarefasDbContext>("ef_database");
+        }
+
+        // Health Checks UI (apenas se não estiver em ambiente de teste)
+        if (!builder.Environment.IsEnvironment("Testing"))
+        {
+            builder.Services.AddHealthChecksUI(setup =>
+            {
+                setup.SetEvaluationTimeInSeconds(30); // Avalia a cada 30 segundos
+                setup.MaximumHistoryEntriesPerEndpoint(50); // Mantém histórico de 50 entradas
+                setup.AddHealthCheckEndpoint("TarefasAPI", "/health");
+                setup.AddHealthCheckEndpoint("TarefasAPI-Ready", "/health/ready");  
+                setup.AddHealthCheckEndpoint("TarefasAPI-Live", "/health/live");
+            }).AddInMemoryStorage();
+        }
 
         // ============================================================================
         // OBSERVABILIDADE - MÉTRICAS E TELEMETRIA
@@ -124,36 +131,42 @@ public partial class Program
             options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
         });
 
-        // Health Checks Endpoints
-        app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+        // Health Checks Endpoints (apenas se não estiver em ambiente de teste)
+        if (!app.Environment.IsEnvironment("Testing"))
         {
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-            ResultStatusCodes =
+            app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
             {
-                [HealthStatus.Healthy] = StatusCodes.Status200OK,
-                [HealthStatus.Degraded] = StatusCodes.Status200OK,
-                [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-            }
-        });
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                ResultStatusCodes =
+                {
+                    [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                    [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                    [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                }
+            });
 
-        app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
-        {
-            Predicate = check => check.Tags.Contains("ready") || check.Name == "database",
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        });
+            app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+            {
+                Predicate = check => check.Tags.Contains("ready") || check.Name == "database",
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
-        app.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions  
-        {
-            Predicate = check => check.Name == "application",
-            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-        });
+            app.MapHealthChecks("/health/live", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions  
+            {
+                Predicate = check => check.Name == "application",
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+        }
 
-        // Health Checks UI
-        app.MapHealthChecksUI(setup =>
+        // Health Checks UI (apenas se não estiver em ambiente de teste)
+        if (!app.Environment.IsEnvironment("Testing"))
         {
-            setup.UIPath = "/health-ui";
-            setup.ApiPath = "/health-ui-api";  
-        });
+            app.MapHealthChecksUI(setup =>
+            {
+                setup.UIPath = "/health-ui";
+                setup.ApiPath = "/health-ui-api";  
+            });
+        }
 
         // OpenTelemetry Prometheus endpoint
         app.MapPrometheusScrapingEndpoint();

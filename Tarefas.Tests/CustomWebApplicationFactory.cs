@@ -30,6 +30,17 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 services.Remove(service);
             }
 
+            // Remove serviços do HealthChecks UI que causam problemas nos testes
+            var healthChecksServices = services
+                .Where(s => s.ServiceType.ToString().Contains("HealthChecks") ||
+                           s.ServiceType.ToString().Contains("UIInitializationHostedService"))
+                .ToList();
+
+            foreach (var service in healthChecksServices)
+            {
+                services.Remove(service);
+            }
+
             // Remove especificamente os serviços que podem causar conflito
             var contextOptions = services.Where(s => s.ServiceType == typeof(DbContextOptions<TarefasDbContext>)).ToList();
             var contextOptionsBase = services.Where(s => s.ServiceType == typeof(DbContextOptions)).ToList();

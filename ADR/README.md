@@ -14,7 +14,7 @@ Seguimos o padrão de nomenclatura: `{número}-{titulo-da-decisao}.md`
 | [ADR-002](./002-ef-vs-custom-paging.md) | PagedResult vs Entity Framework Paging | 2024-12-29 | ✅ Aceito |
 | [ADR-003](./003-melhorias-planejadas.md) | Roadmap de Melhorias Arquiteturais | 2024-12-29 | 🔄 Em Progresso |
 | [ADR-004](./004-limitacoes-testes-inmemory.md) | Limitações dos Testes InMemory | 2024-12-30 | ✅ Aceito |
-| [ADR-005](./005-fase-3-observabilidade.md) | FASE 3 - Observabilidade e Monitoramento | 2024-12-30 | 🔄 Em Progresso |
+| [ADR-005](./005-fase-3-observabilidade.md) | FASE 3 - Observabilidade e Monitoramento | 2024-12-30 | ✅ Aceito |
 
 ## 🏗️ Template de ADR
 Para novos ADRs, use a estrutura:

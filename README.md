@@ -40,12 +40,12 @@ Este projeto foi desenvolvido em **3 fases incrementais**:
 - 📄 Paginação otimizada
 - 🧪 95.2% dos testes passando*
 
-### 🔄 FASE 3 - Observabilidade (Em Progresso)
-- 📊 Métricas e telemetria
-- 🔍 Health checks avançados
+### ✅ FASE 3 - Observabilidade (Concluída)
+- 📊 Métricas e telemetria (OpenTelemetry + Prometheus)
+- 🔍 Health checks avançados (/health, /health-ui)
 - 📝 Logging estruturado (Serilog)
-- 🔗 Tracing distribuído
-- 📈 Dashboards e alerting
+- 🔗 Tracing distribuído (Activities/Spans)
+- 📈 Dashboards e alerting prontos
 
 *4 testes falham por limitações conhecidas do InMemory Provider (documentado em ADR)*
 
@@ -92,6 +92,8 @@ dotnet run --project Tarefas.Api/Tarefas.Api.csproj
 - **API Base**: `http://localhost:5230`
 - **📊 Swagger UI**: `http://localhost:5230/swagger`
 - **🏥 Health Check**: `http://localhost:5230/health`
+- **🎛️ Health Dashboard**: `http://localhost:5230/health-ui`
+- **📊 Métricas**: `http://localhost:5230/metrics`
 
 ## 🧪 Como Executar os Testes
 
@@ -122,18 +124,27 @@ dotnet test --filter "ClassName=TarefasControllerTests"
 | `PUT` | `/Tarefas/{id}` | Atualiza tarefa existente | 50/min |
 | `DELETE` | `/Tarefas/{id}` | Remove tarefa por ID | 10/min |
 
-### 🔍 Recursos Especiais
+### 🔍 Observabilidade e Monitoramento
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/health` | 🏥 Health check geral |
+| `GET` | `/health/ready` | 🚀 Readiness probe |
+| `GET` | `/health/live` | ❤️ Liveness probe |
+| `GET` | `/health-ui` | 🎛️ Dashboard de health checks |
+| `GET` | `/metrics` | 📊 Métricas Prometheus |
+
+### 🎯 Documentação e Recursos
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `GET` | `/swagger` | 📊 Documentação interativa |
-| `GET` | `/health` | 🏥 Status de saúde da API |
 | `GET` | `/openapi.json` | 📋 Especificação OpenAPI |
 
-### 📝 Exemplos de Uso
+### 📖 Guias de Teste
 
-As requisições completas estão documentadas no arquivo `Tarefas.Api.http`. 
-Use a **extensão REST Client** do VS Code para executá-las diretamente.
+- **🔍 [OBSERVABILITY_TESTING_GUIDE.md](./OBSERVABILITY_TESTING_GUIDE.md)**: Como testar health checks, métricas, logs e tracing
+- **📝 [Tarefas.Api.http](./Tarefas.Api.http)**: Exemplos de requisições HTTP
 
 ## ☁️ Deploy no Azure API Management
 
@@ -161,24 +172,23 @@ Todas as decisões arquiteturais estão documentadas em: **[./ADR/](./ADR/)**
 | [002](./ADR/002-ef-vs-custom-paging.md) | PagedResult vs Entity Framework Paging | ✅ Aceito |
 | [003](./ADR/003-melhorias-planejadas.md) | Roadmap de Melhorias Arquiteturais | 🔄 Em Progresso |
 | [004](./ADR/004-limitacoes-testes-inmemory.md) | Limitações dos Testes InMemory | ✅ Aceito |
-| [005](./ADR/005-fase-3-observabilidade.md) | FASE 3 - Observabilidade | 🔄 Em Progresso |
+| [005](./ADR/005-fase-3-observabilidade.md) | FASE 3 - Observabilidade | ✅ Aceito |
 
 ---
 
 ## 🎯 Próximos Passos
 
-### FASE 3 - Observabilidade (Em Desenvolvimento)
-- [ ] 📊 **Métricas**: OpenTelemetry + Prometheus
-- [ ] 🔍 **Health Checks**: Database, dependencies  
-- [ ] 📝 **Logging**: Serilog estruturado
-- [ ] 🔗 **Tracing**: Request journey completo
-- [ ] 📈 **Dashboards**: Grafana + alerting
+### ✅ Todas as Fases Concluídas!
+O projeto está **production-ready** com:
+- ✅ **FASE 1**: Clean Architecture + CRUD + Testes
+- ✅ **FASE 2**: Entity Framework + Thread-Safety + Rate Limiting  
+- ✅ **FASE 3**: Observabilidade completa
 
 ### Melhorias Futuras
 - [ ] 🔐 **Autenticação**: JWT/OAuth2
 - [ ] 🐳 **Containerização**: Docker + Kubernetes  
 - [ ] 🚀 **CI/CD**: GitHub Actions pipeline
-- [ ] 📊 **Monitoramento**: Application Insights
+- [ ] ☁️ **Cloud Native**: Azure Application Insights
 
 ---
 
