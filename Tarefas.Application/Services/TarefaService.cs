@@ -46,7 +46,8 @@ public class TarefaService : ITarefaService
         tarefa.Titulo = tarefaDTO.Titulo;
         tarefa.Concluida = tarefaDTO.Concluida;
 
-        return await _tarefaRepository.AtualizarAsync(tarefa);
+        var tarefaAtualizada = await _tarefaRepository.AtualizarAsync(tarefa);
+        return tarefaAtualizada ?? throw new Exception("Erro ao atualizar tarefa");
     }
 
     public Task DeletarAsync(int id)

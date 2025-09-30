@@ -29,7 +29,7 @@ public class TarefaRepository : ITarefaRepository
         return Task.FromResult(tarefa);
     }
 
-    public Task<Tarefa> AtualizarAsync(Tarefa tarefa)
+    public Task<Tarefa?> AtualizarAsync(Tarefa tarefa)
     {
         var tarefaExistente = _tarefas.FirstOrDefault(t => t.Id == tarefa.Id);
         if (tarefaExistente != null)
@@ -37,7 +37,7 @@ public class TarefaRepository : ITarefaRepository
             tarefaExistente.Titulo = tarefa.Titulo;
             tarefaExistente.Concluida = tarefa.Concluida;
         }
-        return Task.FromResult(tarefaExistente!);
+        return Task.FromResult<Tarefa?>(tarefaExistente);
     }
 
     public Task DeletarAsync(int id)
