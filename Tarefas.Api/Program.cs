@@ -1,8 +1,5 @@
-using Tarefas.Application.Interfaces;
-using Tarefas.Application.Services;
-using Tarefas.Domain.Interfaces;
-using Tarefas.Infrastructure.Repositories;
-
+using Tarefas.Api.Extensions;
+using Tarefas.Api.Filters;
 
 namespace Tarefas.Api;
 
@@ -12,43 +9,42 @@ public partial class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
+        // ===== CONFIGURAÇÃO DE SERVIÇOS =====
+        
+        // Controllers com validação customizada
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-            {
-                Title = "Tarefas API",
-                Version = "v1",
-                Description = "API REST para gerenciamento de tarefas seguindo os princípios da Clean Architecture",
-                Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                {
-                    Name = "Desenvolvedor",
-                    Email = "dev@tarefas.com"
-                }
-            });
-        });
+        builder.Services.AddCustomValidation();
 
-        // Dependency Injection
-        builder.Services.AddScoped<ITarefaService, TarefaService>();
-        builder.Services.AddSingleton<ITarefaRepository, TarefaRepository>();
+        // API Explorer e Swagger
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddCustomSwagger();
+
+        // CORS
+        builder.Services.AddCustomCors(builder.Configuration);
+
+        // Rate Limiting
+        builder.Services.AddRateLimiting(builder.Configuration);
+
+        // Application Services (DI)
+        builder.Services.AddApplicationServices();
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        // ===== CONFIGURAÇÃO DO PIPELINE =====
+        
+        // Segurança (middleware de segurança, correlation ID, rate limiting, exception handling)
+        app.UseCustomSecurity(app.Environment);
 
-        app.UseHttpsRedirection();
+        // CORS
+        app.UseCustomCors(app.Environment);
 
+        // Swagger (somente desenvolvimento)
+        app.UseCustomSwagger(app.Environment);
+
+        // Authorization (placeholder para futuras implementações)
         app.UseAuthorization();
 
+        // Controllers
         app.MapControllers();
 
         app.Run();
