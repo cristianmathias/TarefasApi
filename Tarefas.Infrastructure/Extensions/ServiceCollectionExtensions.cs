@@ -77,6 +77,12 @@ public static class ServiceCollectionExtensions
     /// </summary>
     private static string GetConnectionString(IConfiguration configuration, IHostEnvironment environment)
     {
+        // Em ambiente de teste, não configurar nada (será sobrescrito pelos testes)
+        if (environment.EnvironmentName == "Testing")
+        {
+            return ""; // Será ignorado nos testes
+        }
+
         // Verificar se há connection string configurada
         var configConnectionString = configuration.GetConnectionString("DefaultConnection");
         if (!string.IsNullOrEmpty(configConnectionString))
@@ -88,7 +94,6 @@ public static class ServiceCollectionExtensions
         return environment.EnvironmentName switch
         {
             "Development" => "Data Source=tarefas-dev.db;Cache=Shared",
-            "Testing" => "Data Source=:memory:;Mode=Memory;Cache=Shared", 
             "Production" => "Data Source=/app/data/tarefas-prod.db;Cache=Shared",
             _ => "Data Source=tarefas.db;Cache=Shared"
         };

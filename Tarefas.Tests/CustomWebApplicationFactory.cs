@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Tarefas.Api;
+using Tarefas.Domain.Interfaces;
 using Tarefas.Infrastructure.Data;
+using Tarefas.Infrastructure.Repositories;
 
 namespace Tarefas.Tests;
 
@@ -15,84 +17,101 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            // Remove completamente o DbContext existente e suas dependências
-            var dbContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<TarefasDbContext>));
-            if (dbContextDescriptor != null)
+            // Remove TODOS os serviços relacionados ao EF Core existente
+            var servicesToRemove = services
+                .Where(s => s.ServiceType.ToString().Contains("EntityFramework") ||
+                           s.ServiceType.ToString().Contains("DbContext") ||
+                           s.ServiceType == typeof(TarefasDbContext) ||
+                           (s.ImplementationType != null && s.ImplementationType == typeof(EfTarefaRepository)))
+                .ToList();
+
+            foreach (var service in servicesToRemove)
             {
-                services.Remove(dbContextDescriptor);
+                services.Remove(service);
             }
 
-            var dbContextOptionsDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions));
-            if (dbContextOptionsDescriptor != null)
-            {
-                services.Remove(dbContextOptionsDescriptor);
-            }
+            // Remove especificamente os serviços que podem causar conflito
+            var contextOptions = services.Where(s => s.ServiceType == typeof(DbContextOptions<TarefasDbContext>)).ToList();
+            var contextOptionsBase = services.Where(s => s.ServiceType == typeof(DbContextOptions)).ToList();
+            var context = services.Where(s => s.ServiceType == typeof(TarefasDbContext)).ToList();
 
-            // Remove o TarefasDbContext se estiver registrado
-            var contextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(TarefasDbContext));
-            if (contextDescriptor != null)
-            {
-                services.Remove(contextDescriptor);
-            }
+            contextOptions.ForEach(s => services.Remove(s));
+            contextOptionsBase.ForEach(s => services.Remove(s));
+            context.ForEach(s => services.Remove(s));
 
-            // Adiciona banco em memória para testes (limpo)
+            // Adiciona APENAS InMemory (limpo)
             services.AddDbContext<TarefasDbContext>(options =>
             {
-                options.UseInMemoryDatabase("TestDatabase_" + Guid.NewGuid().ToString());
-                options.EnableSensitiveDataLogging();
+                options.UseInMemoryDatabase($"TestDb_{Guid.NewGuid()}")
+                       .EnableSensitiveDataLogging()
+                       .LogTo(message => { }, LogLevel.None); // Desabilita logs
             });
 
-            // Desabilitar logs desnecessários para testes
-            services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Warning));
+            // Reregistra apenas o repositório EF necessário
+            services.AddScoped<ITarefaRepository, EfTarefaRepository>();
+
+            // Logs mínimos
+            services.AddLogging(loggingBuilder => 
+                loggingBuilder.SetMinimumLevel(LogLevel.Error));
         });
 
+        // Usar ambiente específico de teste
         builder.UseEnvironment("Testing");
     }
 
     /// <summary>
-    /// Cria e popula dados no banco de teste
+    /// Inicializa o banco de dados e popula com dados de teste
     /// </summary>
-    public void SeedTestData(Action<TarefasDbContext> seedAction)
+    public void InitializeDbForTests()
     {
         using var scope = Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<TarefasDbContext>();
         
-        // Garantir que o banco está criado e limpo
-        context.Database.EnsureDeleted();
+        // Garantir que o banco está criado
         context.Database.EnsureCreated();
         
-        // Executar seed personalizado
-        seedAction(context);
+        // Limpar dados existentes
+        context.Tarefas.RemoveRange(context.Tarefas);
+        context.SaveChanges();
+        
+        // Adicionar dados de teste
+        var tarefas = new[]
+        {
+            new Domain.Entities.Tarefa
+            {
+                Id = 1,
+                Titulo = "Tarefa Teste 1",
+                Descricao = "Descrição da tarefa 1",
+                Concluida = false,
+                DataCriacao = DateTime.UtcNow.AddDays(-1),
+                DataAtualizacao = DateTime.UtcNow.AddDays(-1),
+                IsDeleted = false
+            },
+            new Domain.Entities.Tarefa
+            {
+                Id = 2,
+                Titulo = "Tarefa Teste 2", 
+                Descricao = "Descrição da tarefa 2",
+                Concluida = true,
+                DataCriacao = DateTime.UtcNow.AddDays(-2),
+                DataAtualizacao = DateTime.UtcNow.AddHours(-1),
+                IsDeleted = false
+            }
+        };
+
+        context.Tarefas.AddRange(tarefas);
         context.SaveChanges();
     }
 
     /// <summary>
-    /// Popula dados padrão para testes
+    /// Limpa o banco entre testes
     /// </summary>
-    public void SeedDefaultTestData()
+    public void CleanDatabase()
     {
-        SeedTestData(context =>
-        {
-            context.Tarefas.AddRange(
-                new Domain.Entities.Tarefa 
-                { 
-                    Id = 1, 
-                    Titulo = "Tarefa Teste 1", 
-                    Descricao = "Descrição 1", 
-                    Concluida = false,
-                    DataCriacao = DateTime.UtcNow.AddDays(-1),
-                    DataAtualizacao = DateTime.UtcNow.AddDays(-1)
-                },
-                new Domain.Entities.Tarefa 
-                { 
-                    Id = 2, 
-                    Titulo = "Tarefa Teste 2", 
-                    Descricao = "Descrição 2", 
-                    Concluida = true,
-                    DataCriacao = DateTime.UtcNow.AddDays(-2),
-                    DataAtualizacao = DateTime.UtcNow.AddHours(-1)
-                }
-            );
-        });
+        using var scope = Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<TarefasDbContext>();
+        
+        context.Tarefas.RemoveRange(context.Tarefas);
+        context.SaveChanges();
     }
 }
